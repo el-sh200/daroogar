@@ -1,0 +1,15 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% trans 'داروگر' %} | {% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="//cdn.datatables.net/1.13.3/css/jquery.dataTables.min.css">
+</head>
+<body>
+{% block content %}{% endblock %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="//cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
+{% block custom_js %}{% endblock %}
+</body>
+</html>

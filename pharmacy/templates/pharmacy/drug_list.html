@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans 'لیست داروها' %}{% endblock %}
+
+{% block content %}
+    <h1>Hello!</h1>
+    <table id="drugs" class="display" style="width:100%">
+        <thead>
+        <tr>
+            <th>Fa Name</th>
+            <th>En Name</th>
+            <th>description</th>
+            <th>Operation</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for drug in drugs %}
+            <tr>
+                <td>{{ drug.name_fa }}</td>
+                <td>{{ drug.name_en }}</td>
+                <td>{{ drug.description }}</td>
+                <td><button class="btn btn-primary select-btn">Select</button></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block custom_js %}
+    <script>
+        $(document).ready(function () {
+            $('#drugs').DataTable();
+        });
+
+
+$(document).ready(function () {
+    $(".select-btn").click(function () {
+        $(this).fadeOut(function () {
+            $(this).text(($(this).text() == 'Select') ? 'Un Select' : 'Select').fadeIn();
+        })
+    })
+});
+    </script>
+{% endblock %}
