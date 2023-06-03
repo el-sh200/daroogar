@@ -18,7 +18,7 @@ def custom_command(update, context):
 
 def send_file(update, context):
     update.message.reply_text('sending you a file...  :)')
-    file_path = '../t.txt'
+    file_path = 'logo.png'
     with open(file_path, 'rb') as f:
         context.bot.send_document(chat_id=update.effective_chat.id, document=f)
 
@@ -72,3 +72,4 @@ def start_bot():
     updater.start_polling()
 
     updater.idle()
+    print('after')
