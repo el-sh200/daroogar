@@ -80,12 +80,8 @@ WSGI_APPLICATION = 'daroogar.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'daroogar',
-        'USER': 'sharifia',
-        'PASSWORD': 'U4+DyPV#47*@yk*K',
-        'HOST': 'sharifia.mysql.pythonanywhere-services.com',   # Or an IP Address that your DB is hosted on
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
