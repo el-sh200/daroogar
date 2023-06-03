@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -24,8 +24,9 @@ SECRET_KEY = 'django-insecure-fyvu_@a179*da130=%jt4m(vgg0t6$l022g8o(pf@t_oe#e)ga
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
-
+ALLOWED_HOSTS = [
+    'sharifia.pythonanywhere.com',
+]
 
 # Application definition
 
@@ -120,3 +121,10 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Override Local Setting
+try:
+    if os.environ.get('DJANGO_DEVELOPMENT'):
+        from daroogar.local_settings import *
+except ModuleNotFoundError:
+    pass
