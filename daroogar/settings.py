@@ -76,17 +76,24 @@ WSGI_APPLICATION = 'daroogar.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'daroogar',
+#         'USER': 'root',
+#         'PASSWORD': 'A6rKwZhj0tUGbGslxhJtQSY8',
+#         'HOST': 'gina.iran.liara.ir',
+#         'PORT': '32685',
+#     }
+# }
+
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'daroogar',
-        'USER': 'root',
-        'PASSWORD': 'A6rKwZhj0tUGbGslxhJtQSY8',
-        'HOST': 'gina.iran.liara.ir',
-        'PORT': '32685',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
