@@ -5,9 +5,16 @@
 
 {% block content %}
     <h1>Hello!</h1>
+    <div id="prescription">
+        <h3>Selected drugs: </h3>
+        <ul>
+
+        </ul>
+    </div>
     <table id="drugs" class="display" style="width:100%">
         <thead>
         <tr>
+            <th>Code</th>
             <th>Fa Name</th>
             <th>En Name</th>
             <th>description</th>
@@ -16,11 +23,14 @@
         </thead>
         <tbody>
         {% for drug in drugs %}
-            <tr>
+            <tr data-id="{{ drug.id }}">
+                <td>{{ drug.id }}</td>
                 <td>{{ drug.name_fa }}</td>
-                <td>{{ drug.name_en }}</td>
+                <td class="name">{{ drug.name_en }}</td>
                 <td>{{ drug.description }}</td>
-                <td><button class="btn btn-primary select-btn">Select</button></td>
+                <td>
+                    <button class="btn btn-primary select-btn">Select</button>
+                </td>
             </tr>
         {% endfor %}
         </tbody>
@@ -34,12 +44,22 @@
         });
 
 
-$(document).ready(function () {
-    $(".select-btn").click(function () {
-        $(this).fadeOut(function () {
-            $(this).text(($(this).text() == 'Select') ? 'Un Select' : 'Select').fadeIn();
-        })
-    })
-});
+        $(document).ready(function () {
+            $(".select-btn").click(function () {
+                var drug = $(this).closest('tr')
+                var did = drug.data('id')
+                var name = drug.find('.name').text();
+                let is_selected = $(this).text() == 'Select'
+                $(this).fadeOut(function () {
+                    $(this).text(is_selected ? 'Un Select' : 'Select').fadeIn();
+                })
+                if (is_selected) {
+                    $('#prescription ul').append(`<li data-id=${did}>` + name + '</li>');
+
+                } else {
+                     $('#prescription li[data-id="' + did + '"]').remove();
+                }
+            })
+        });
     </script>
 {% endblock %}
