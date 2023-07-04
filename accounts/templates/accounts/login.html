@@ -1,0 +1,79 @@
+{% extends 'accounts/base.html' %}
+{% load static %}
+
+{% block title %}{% endblock %}
+
+{% block body_class %}login-register{% endblock %}
+
+{% block body_content %}
+    <div class="login-box">
+        <div class="white-box">
+            <form class="form-horizontal form-material" id="loginform" method="post">
+                {% csrf_token %}
+                <h3 class="box-title m-b-20">Sign In</h3>
+                {{ form.non_field_errors }}
+                <div class="form-group ">
+                    <div class="col-xs-12">
+                        {{ form.personal_code }}
+                        {{ form.personal_code.errors }}
+                    </div>
+                </div>
+                <div class="form-group ">
+                    <div class="col-xs-12">
+                        {{ form.mobile_number }}
+                        {{ form.mobile_number.errors }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <div class="input-group">
+                            {{ form.otp_code }}
+                            <span class="input-group-btn">
+                                <button type="button" id="send-otp"
+                                        class="btn waves-effect waves-light btn-success">Send Code</button></span>
+                            {{ form.otp_code.errors }}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group text-center m-t-20">
+                    <div class="col-xs-12">
+                        <button class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light"
+                                id="signup_btn" disabled type="submit">Sign In
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group m-b-0">
+                    <div class="col-sm-12 text-center">
+                        <p>Don't have an account?
+                            <a href="{% url 'accounts:user_register' %}" class="text-primary m-l-5"><b>Sign Up</b></a>
+                        </p>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block custom_js %}
+    <script>
+        $(document).on('click', '#send-otp', function () {
+            let mobile_number = $('#id_mobile_number').val()
+            if (mobile_number) {
+                $.ajax({
+                    url: "{% url 'accounts:send_otp' %}",
+                    data: {'mobile_number': mobile_number},
+                    type: 'POST',
+                })
+                    .success(function (data) {
+                        console.log('success')
+                        console.log(data)
+                        $("#signup_btn"). attr("disabled", false);
+                    });
+            }
+            console.log(mobile_number)
+
+
+        })
+    </script>
+{% endblock %}

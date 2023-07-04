@@ -1,0 +1,13 @@
+#drug-input .empty-message {
+    padding: 5px 10px;
+    text-align: center;
+}
+
+#sbloodhound .tt-dropdown-menu {
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}

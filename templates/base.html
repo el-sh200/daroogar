@@ -59,7 +59,12 @@
     {% block navigation %}{% include 'inc/navigation.html' %}{% endblock %}
     {% block leftbar %}{% include 'inc/leftbar.html' %}{% endblock %}
     <!-- Page Content -->
-    {% block content %}{% endblock %}
+    <div {% block body_id %}id="page-wrapper"{% endblock %}>
+        <div class="container-fluid">
+            {% block content %}{% endblock %}
+        {% block rightbar %}{% include 'inc/rightbar.html' %}{% endblock %}
+        </div>
+    </div>
     {% block footer %}{% include 'inc/footer.html' %}{% endblock %}
 </div>
 <!-- jQuery -->

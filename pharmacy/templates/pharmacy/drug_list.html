@@ -1,65 +1,100 @@
 {% extends 'base.html' %}
-{% load i18n %}
+{% load static %}
 
-{% block title %}{% trans 'لیست داروها' %}{% endblock %}
+{% block custom_css %}
+    <link href="{% static 'plugins/bower_components/typeahead.js-master/dist/typehead-min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/custom.css' %}" rel="stylesheet">
+{% endblock %}
 
 {% block content %}
-    <h1>Hello!</h1>
-    <div id="prescription">
-        <h3>Selected drugs: </h3>
-        <ul>
-
-        </ul>
+    <div class="row bg-title">
+        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+            <h4 class="page-title">Wellcome {{ request.user.name }}</h4></div>
+        {#                <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12"><a href="" target="_blank"#}
+        {#                                                                     class="btn btn-danger pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">Buy#}
+        {#                    Now</a>#}
+        {#                    <ol class="breadcrumb">#}
+        {#                        <li><a href="#">Dashboard</a></li>#}
+        {#                        <li><a href="#">Form Elements</a></li>#}
+        {#                        <li class="active">Typehead page</li>#}
+        {#                    </ol>#}
+        {#                </div>#}
+        <!-- /.col-lg-12 -->
     </div>
-    <table id="drugs" class="display" style="width:100%">
-        <thead>
-        <tr>
-            <th>Code</th>
-            <th>Fa Name</th>
-            <th>En Name</th>
-            <th>description</th>
-            <th>Operation</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for drug in drugs %}
-            <tr data-id="{{ drug.id }}">
-                <td>{{ drug.id }}</td>
-                <td>{{ drug.name_fa }}</td>
-                <td class="name">{{ drug.name_en }}</td>
-                <td>{{ drug.description }}</td>
-                <td>
-                    <button class="btn btn-primary select-btn">Select</button>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="white-box">
+                <form>
+                    <h3 class="box-title m-b-0">لیست دارو ها</h3>
+                    <p class="text-muted m-b-30 font-13">لطفا پس از وارد کردن اطلاعات بیمار، لیست داروهای وی را
+                        از لیست انتخاب کنید و تایید نسخه را بزنید.</p>
+                    <div id="drug-input">
+                        <input class="typeahead form-control" type="text" placeholder="Enter Drug Name...">
+                    </div>
+                </form>
+
+                <div class="table-responsive mt-4">
+                    <table class="table color-bordered-table inverse-bordered-table">
+                        <thead>
+                        <tr>
+                            <th>Code #</th>
+                            <th>English Name</th>
+                            <th>Persian Name</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block custom_js %}
+    <script src="{% static 'plugins/bower_components/typeahead.js-master/dist/typeahead.bundle.min.js' %}"></script>
+
     <script>
+        const url = {% url 'pharmacy:send_data' %};
         $(document).ready(function () {
-            $('#drugs').DataTable();
-        });
-
-
-        $(document).ready(function () {
-            $(".select-btn").click(function () {
-                var drug = $(this).closest('tr')
-                var did = drug.data('id')
-                var name = drug.find('.name').text();
-                let is_selected = $(this).text() == 'Select'
-                $(this).fadeOut(function () {
-                    $(this).text(is_selected ? 'Un Select' : 'Select').fadeIn();
-                })
-                if (is_selected) {
-                    $('#prescription ul').append(`<li data-id=${did}>` + name + '</li>');
-
-                } else {
-                     $('#prescription li[data-id="' + did + '"]').remove();
+            var drugs = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                remote: {
+                    url: '/send_data/?q=%QUERY',
+                    wildcard: '%QUERY'
                 }
-            })
+            });
+
+            $('#drug-input .typeahead').typeahead(null, {
+                name: 'drugs',
+                display: 'name_en',
+                source: drugs,
+                templates: {
+                    empty: [
+                        '<div class="empty-message">',
+                        'unable to find any drug that match the current query',
+                        '</div>'
+                    ].join('\n'),
+                    suggestion: function (data) {
+                        return `<p>${data.name_en} - <strong>${data.code}</strong></p>`;
+                    }
+                }
+            }).on('typeahead:select', function (e, item) {
+                $('table tbody').append(
+                    `<tr>
+                        <td>${item.code}</td>
+                        <td>${item.name_en}</td>
+                        <td>${item.name_fa}</td>
+                        <td class="text-nowrap"><a class="close-this cursor-pointer"> <i class="fa fa-close text-danger"></i> </a> </td>
+                    </tr>`);
+                $('.typeahead').typeahead('val', '');
+            });
+
+            $(document).on('click', '.close-this', function () {
+                $(this).closest('tr').remove();
+            });
         });
     </script>
 {% endblock %}
