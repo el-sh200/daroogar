@@ -1,78 +1,59 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <title>Drug Information</title>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
+    <title>Title</title>
+    <style type="text/css">
+        body {
+            font-weight: 200;
+            font-size: 14px;
         }
 
-        th, td {
-            text-align: left;
-            padding: 8px;
-            border-bottom: 1px solid #ddd;
+        .header {
+            font-size: 20px;
+            font-weight: 100;
+            text-align: center;
+            color: #007cae;
         }
 
-        th {
-            background-color: #f2f2f2;
+        .title {
+            font-size: 22px;
+            font-weight: 100;
+            /* text-align: right;*/
+            padding: 10px 20px 0px 20px;
+        }
+
+        .title span {
+            color: #007cae;
+        }
+
+        .details {
+            padding: 10px 20px 0px 20px;
+            text-align: left !important;
+            /*margin-left: 40%;*/
+        }
+
+        .hrItem {
+            border: none;
+            height: 1px;
+            /* Set the hr color */
+            color: #333; /* old IE */
+            background-color: #fff; /* Modern Browsers */
         }
     </style>
 </head>
 <body>
-<h1>Drug Information</h1>
-<h2>Customer Information</h2>
-<table>
-    <tbody>
-    <tr>
-        <td><strong>Name of Customer:</strong></td>
-        <td>John Doe</td>
-    </tr>
-    <tr>
-        <td><strong>Date of Buying:</strong></td>
-        <td>June 18, 2023</td>
-    </tr>
-    <tr>
-        <td><strong>Name of Pharmacy:</strong></td>
-        <td>ABC Pharmacy</td>
-    </tr>
-    <tr>
-        <td><strong>Count of Drugs:</strong></td>
-        <td>3</td>
-    </tr>
-    <tr>
-        <td><strong>Number of Prescription:</strong></td>
-        <td>2</td>
-    </tr>
-    </tbody>
-</table>
-<h2>Drug Information</h2>
-<table>
-    <thead>
-    <tr>
-        <th>Drug Name</th>
-        <th>Description</th>
-        <th>Prescription Required</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <td>Aspirin</td>
-        <td>A pain reliever and anti-inflammatory drug</td>
-        <td>Non-prescription</td>
-    </tr>
-    <tr>
-        <td>Codeine</td>
-        <td>An opioid pain medication</td>
-        <td>Prescription required</td>
-    </tr>
-    <tr>
-        <td>Amoxicillin</td>
-        <td>An antibiotic used to treat bacterial infections</td>
-        <td>Prescription required</td>
-    </tr>
-    <!-- Add more drugs and information here -->
-    </tbody>
-</table>
+<div class='wrapper'>
+    <div class='header'>
+        <p class='title'>Invoice # </p>
+    </div>
+    <div>
+        <div class='details'>
+            Bill to: <br/>
+            Amount: <br/>
+            Date:
+            <hr class='hrItem'/>
+        </div>
+    </div>
+</div>
 </body>
 </html>

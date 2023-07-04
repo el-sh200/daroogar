@@ -14,7 +14,7 @@ from drug.models import Drug
 #     form = PrescriptionForm()
 #     context = {'form': form}
 #     return render(request, '', context)
-from .utils import create_bot_link, create_qrcode
+from .utils import create_bot_link, create_qrcode, render_to_pdf
 
 
 def index(request):
@@ -54,6 +54,16 @@ def generate_prescription(request):
         # create qrcode
 
         # pass qrcode
+        data = {
+            'today': '13 Tir',
+            'amount': 39.99,
+            'customer_name': 'Cooper Mann',
+            'order_id': 1233434,
+        }
+        pdf = render_to_pdf('pdf/invoice.html', data)
+        prescription.pdf_export = pdf
+        prescription.save()
+
         return JsonResponse({'link': link})
     else:
         print('not valid')
