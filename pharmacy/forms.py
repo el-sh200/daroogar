@@ -2,13 +2,24 @@ from django import forms
 
 from customer.models import Customer
 from .models import Prescription
+from phonenumber_field.formfields import PhoneNumberField
 
 
 class PrescriptionForm(forms.ModelForm):
-    mobile_number = forms.CharField(widget=forms.NumberInput)
+    mobile_number = PhoneNumberField(widget=forms.NumberInput(attrs={'class': 'form-control'}))
+
     class Meta:
         model = Prescription
-        fields = ('drugs', )
+        fields = ('drugs', 'national_code',)
+        widgets = {
+            'national_code': forms.NumberInput({'class': 'form-control'}),
+        }
+
+    def clean_mobile_number(self):
+        mobile_number = self.cleaned_data['mobile_number']
+        mobile_number = str(mobile_number).replace(' ', '')
+        return mobile_number
+
     #
     # def clean(self):
     #     cleaned_data = super(PrescriptionForm, self).clean()

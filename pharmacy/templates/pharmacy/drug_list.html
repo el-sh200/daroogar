@@ -24,10 +24,13 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="white-box">
-                <form>
+                <form class="">
                     <h3 class="box-title m-b-0">لیست دارو ها</h3>
                     <p class="text-muted m-b-30 font-13">لطفا پس از وارد کردن اطلاعات بیمار، لیست داروهای وی را
                         از لیست انتخاب کنید و تایید نسخه را بزنید.</p>
+                    {{ form.national_code.label_tag }}{{ form.national_code }}
+                    {{ form.mobile_number.label_tag }}{{ form.mobile_number }}
+                    <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">تایید</button>
                     <div id="drug-input">
                         <input class="typeahead form-control" type="text" placeholder="Enter Drug Name...">
                     </div>
