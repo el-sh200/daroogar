@@ -4,6 +4,12 @@
 
 {% block title %}{% trans 'لیست داروها' %}{% endblock %}
 
+{% block custom_css %}
+
+    <link rel="stylesheet" href="//cdn.datatables.net/1.13.3/css/jquery.dataTables.min.css">
+
+{% endblock %}
+
 {% block content %}
     <h1>Hello!</h1>
     <form id="prescription_form">
@@ -23,9 +29,9 @@
         </div>
 
         <div id="qrcode-container" style="display: none">
-{#            <img src="#}
-{% qr_from_text qrcode_url %}
-{#">#}
+            {#            <img src="#}
+            {% qr_from_text qrcode_url %}
+            {#">#}
         </div>
 
     </form>
@@ -56,6 +62,8 @@
 {% endblock %}
 
 {% block custom_js %}
+    <script src="//cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
+
     <script>
         $(document).ready(function () {
             $('#drugs').DataTable();
@@ -102,6 +110,9 @@
             {#const url = {% url 'pharmacy:generate_prescription' %}#}
             {#    console.log(url)#}
             console.log(formData)
+            for (const [key, value] of formData.entries()) {
+                console.log(key, value);
+            }
 
             $.ajax({
                 url: '/generate/',
@@ -111,8 +122,8 @@
                 contentType: false,
                 success: function (response) {
                     console.log(response.link);
-                    $('#qrcode').load(document.URL+'#qrcode')
-                     $('#qrcode-container img').attr('src', response.link);
+                    $('#qrcode').load(document.URL + '#qrcode')
+                    $('#qrcode-container img').attr('src', response.link);
                     $('#qrcode-container').css('display', 'unset')
 
                 },

@@ -1,5 +1,5 @@
 from django.db.models import Q
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
@@ -60,8 +60,20 @@ def generate_prescription(request):
             'customer_name': 'Cooper Mann',
             'order_id': 1233434,
         }
-        pdf = render_to_pdf('pdf/invoice.html', data)
-        prescription.pdf_export = pdf
+
+        response = render_to_pdf('pharmacy/pdf.html', data)
+        rr = HttpResponse(response, content_type='application/pdf')
+        address = f'media/'
+
+        file_name = f'prescription/pre-{prescription.id}.pdf'
+        try:
+            f = open(address+file_name, 'wb')
+            f.write(rr.content)
+            f.close()
+        except Exception as e:
+            # print(e)
+            pass
+        prescription.pdf_export = file_name
         prescription.save()
 
         return JsonResponse({'link': link})
@@ -77,10 +89,10 @@ def send_data(request):
     if query:
         print('1')
         data = Drug.objects.filter(
-            Q(name_en__contains=query) | Q(name_fa__contains=query) | Q(code__contains=query)).values('name_en',
+            Q(name_en__contains=query) | Q(name_fa__contains=query) | Q(code__contains=query)).values('id', 'name_en',
                                                                                                       'name_fa', 'code')
     else:
         print('2')
-        data = Drug.objects.values('name_en', 'name_fa', 'code')
+        data = Drug.objects.values('id', 'name_en', 'name_fa', 'code')
     print(data)
     return JsonResponse(list(data), safe=False)

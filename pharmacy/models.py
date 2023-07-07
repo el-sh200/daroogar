@@ -9,7 +9,7 @@ class Prescription(models.Model):
     national_code = models.CharField(max_length=15)
     drugs = models.ManyToManyField(Drug)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    pdf_export = models.FileField(null=True, blank=True)
+    pdf_export = models.FileField(upload_to='prescription/', null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
