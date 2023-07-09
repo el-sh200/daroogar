@@ -58,7 +58,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',  # default backend for username/password authentication
     'accounts.authentication.CustomAuthenticationBackend',  # custom backend for OTP authentication
@@ -101,8 +100,12 @@ WSGI_APPLICATION = 'daroogar.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'default',
+        'USER': 'sharifia',
+        'PASSWORD': 'database',
+        'HOST': 'sharifia.mysql.pythonanywhere-services.com',
+        'PORT': '3306',
     }
 }
 # Password validation
