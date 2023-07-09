@@ -19,7 +19,7 @@ from .utils import create_bot_link, create_qrcode, render_to_pdf
 
 def index(request):
     print(request.GET)
-    print('hi bitch')
+    print('hi')
 
     drugs = Drug.objects.all()
     form = PrescriptionForm()
@@ -36,32 +36,14 @@ def index(request):
 def generate_prescription(request):
     print(request.POST)
     form = PrescriptionForm(request.POST)
-    print('hv')
     if form.is_valid():
-        print('valid')
-        # save noskhe
         customer, created = Customer.objects.get_or_create(mobile_number=form.cleaned_data.get('mobile_number'))
         prescription = form.save(commit=False)
         prescription.customer = customer
         prescription.save()
         prescription.drugs.set(form.cleaned_data.get('drugs'))
-
-        print(prescription.drugs)
-        print('done')
-        # create start bot
-        # image = create_qrcode(prescription)
         link = create_bot_link(customer)
-        # create qrcode
-
-        # pass qrcode
-        data = {
-            'today': '13 Tir',
-            'amount': 39.99,
-            'customer_name': 'Cooper Mann',
-            'order_id': 1233434,
-        }
-
-        response = render_to_pdf('pharmacy/pdf.html', data)
+        response = render_to_pdf('pharmacy/pdf.html', {'prescription': prescription})
         rr = HttpResponse(response, content_type='application/pdf')
         address = f'media/'
 
@@ -71,7 +53,6 @@ def generate_prescription(request):
             f.write(rr.content)
             f.close()
         except Exception as e:
-            # print(e)
             pass
         prescription.pdf_export = file_name
         prescription.save()
@@ -84,15 +65,11 @@ def generate_prescription(request):
 
 
 def send_data(request):
-    print('here')
     query = request.GET.get('q', None)
     if query:
-        print('1')
         data = Drug.objects.filter(
             Q(name_en__contains=query) | Q(name_fa__contains=query) | Q(code__contains=query)).values('id', 'name_en',
                                                                                                       'name_fa', 'code')
     else:
-        print('2')
         data = Drug.objects.values('id', 'name_en', 'name_fa', 'code')
-    print(data)
     return JsonResponse(list(data), safe=False)
